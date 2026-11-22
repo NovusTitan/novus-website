@@ -4,7 +4,7 @@ export function Logo() {
   return (
     <span className="flex items-center gap-2 font-semibold tracking-wide text-ink">
       <span className="text-xl">NOVUS</span>
-      <span aria-hidden="true" className="h-5 w-px bg-brand" />
+      <span aria-hidden="true" className="h-5 w-px bg-brand-orange" />
       <span className="text-[0.7rem] leading-tight text-ink-soft sm:text-xs">
         INFRASTRUCTURE TALENT
       </span>

@@ -11,7 +11,7 @@ const legal = [
 export function SiteFooter() {
   const { address, phone } = site;
   return (
-    <footer className="mt-auto bg-olive-deep text-cream">
+    <footer className="mt-auto bg-deep-olive text-cream">
       <div className="mx-auto grid max-w-6xl gap-8 px-4 py-10 md:grid-cols-2">
         <div>
           <p className="text-lg font-semibold">{site.name}</p>

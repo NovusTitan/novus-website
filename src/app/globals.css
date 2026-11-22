@@ -1,15 +1,23 @@
 @import "tailwindcss";
 
-/* Novus "Refined earth" brand tokens. See CLAUDE.md for contrast rules. */
+/*
+  Novus "Refined earth" palette. These are the ONLY colors in the project:
+  Tailwind's default colors are removed so nothing else can sneak in.
+  Usage and contrast rules: see "Brand & UX" in CLAUDE.md.
+*/
 @theme {
-  --color-brand: #e67d22;
-  --color-action: #b35a2e;
-  --color-ink: #342d2d;
-  --color-ink-soft: #56514d;
-  --color-cream: #fffff8;
-  --color-sand: #f9f3e5;
-  --color-olive: #87855d;
-  --color-olive-deep: #48432b;
+  --color-*: initial;
+
+  --color-brand-orange: #e67d22; /* logo, icons, small accents only */
+  --color-action: #b35a2e; /* all buttons and links */
+  --color-highlight: #f0944d; /* small highlights/illustrations, never text */
+  --color-ink: #342d2d; /* headlines and body */
+  --color-ink-soft: #56514d; /* secondary text, captions */
+  --color-cream: #fffff8; /* main background */
+  --color-sand: #f9f3e5; /* alternate section background */
+  --color-olive: #87855d; /* tags, icons, dividers. Decorative only */
+  --color-deep-olive: #48432b; /* footer / one dark section, cream text */
+  --color-chip: #e9e8dc; /* tag chip background, deep-olive text */
 
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 }
@@ -21,10 +29,23 @@ html {
 body {
   background-color: var(--color-cream);
   color: var(--color-ink);
+  line-height: 1.65;
 }
 
-/* Visible keyboard focus everywhere */
+/* Visible keyboard focus everywhere. Dark sections switch to a cream ring. */
 :focus-visible {
   outline: 3px solid var(--color-action);
   outline-offset: 2px;
+}
+.on-dark :focus-visible {
+  outline-color: var(--color-cream);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }

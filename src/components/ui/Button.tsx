@@ -6,7 +6,7 @@ type Variant = "solid" | "outline" | "on-dark";
 // Solid = main action. Outline = second action. Max 2 buttons per section.
 const variants: Record<Variant, string> = {
   solid: "bg-action text-cream border-2 border-action hover:bg-ink hover:border-ink",
-  outline: "bg-transparent text-action border-2 border-action hover:bg-action hover:text-cream",
+  outline: "bg-cream text-action border-2 border-action hover:bg-action hover:text-cream",
   "on-dark": "bg-cream text-deep-olive border-2 border-cream hover:bg-sand hover:border-sand",
 };
 

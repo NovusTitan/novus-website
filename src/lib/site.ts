@@ -26,3 +26,7 @@ export const mainNav = [
   { href: "/outplacement", label: "Outplacement" },
   { href: "/about", label: "About" },
 ];
+
+// Shown as a button in the header on every page (Brand & UX: trust rule).
+export const contactLink = { href: "/contact", label: "Contact" };
+export const loginLink = { href: "/login", label: "Log in" };

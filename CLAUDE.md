@@ -79,7 +79,8 @@ These are the only colors. Tailwind's default palette is removed in `src/app/glo
   - deep-olive on chip is 8.1:1 ✓
 - **Never** put white or cream text on `brand-orange` (2.9:1) or `highlight` (2.3:1).
 - **Never** use `brand-orange`, `highlight` or `olive` for text.
-- **Links on sand:** `action` text on `sand` is only 4.3:1, so in sand sections, text links use `ink` with an underline. Buttons are fine on sand.
+- **Links on sand:** `action` text on `sand` is only 4.3:1, so in sand sections, text links use `ink` with an underline.
+  - Buttons are fine on sand: solid buttons are cream on action, and outlined buttons have a cream fill for this reason.
 - **Dark sections** (`deep-olive`) must have the `on-dark` class. It switches the focus ring to cream, because the action-colored ring is only 2.1:1 there. Buttons in dark sections use `variant="on-dark"`.
 
 ### Type
@@ -107,7 +108,9 @@ These are the only colors. Tailwind's default palette is removed in `src/app/glo
   5. Proof: the retention promise, plus testimonials once we have them
   6. Contact
 - **Navigation:**
-  - 5 items max in the header.
+  - 5 items max in the header: Find Jobs, For Employers, Outplacement, About, plus a **Contact** button.
+  - **Log in** lives in the footer and the mobile menu.
+  - On phones, a tap-to-call icon sits next to the menu button.
   - Sticky on scroll.
   - Simple mobile menu.
 - **Speed:**

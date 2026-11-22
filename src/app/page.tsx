@@ -31,7 +31,7 @@ export default function Home() {
       {/* 1. Hero */}
       <section className="bg-cream">
         <div className="mx-auto max-w-6xl px-4 py-16 md:py-28">
-          <p className="flex items-center gap-3 text-sm font-semibold uppercase tracking-widest text-ink-soft">
+          <p className="flex items-center gap-3 text-sm font-medium uppercase tracking-widest text-ink-soft">
             <span aria-hidden="true" className="h-0.5 w-8 bg-brand-orange" />
             Infrastructure talent
           </p>

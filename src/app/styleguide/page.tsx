@@ -55,7 +55,7 @@ export default function StyleGuide() {
   return (
     <>
       <header className="mx-auto max-w-6xl px-4 pt-12 pb-4 md:pt-16">
-        <p className="text-sm font-semibold uppercase tracking-widest text-ink-soft">Internal</p>
+        <p className="text-sm font-medium uppercase tracking-widest text-ink-soft">Internal</p>
         <h1 className="mt-2 text-4xl font-bold leading-tight md:text-5xl">Novus style guide</h1>
         <p className="mt-3 max-w-2xl text-lg text-ink-soft">
           The building blocks for every page. If it isn&apos;t on this page, check with the team before adding it.
@@ -101,7 +101,7 @@ export default function StyleGuide() {
         </ul>
       </Section>
 
-      <Section id="type" title="Type" intro="Inter for everything. Bold headlines, regular body, 16–18px body text with generous line height.">
+      <Section id="type" title="Type" intro="Poppins for everything. Bold headlines, Medium all-caps labels with wide spacing, Regular body at 16–18px with generous line height.">
         <div className="divide-y divide-chip">
           {[
             { label: "Heading 1 · 36/48px bold", el: <p className="text-4xl font-bold leading-tight md:text-5xl">Building better futures, together.</p> },
@@ -109,6 +109,7 @@ export default function StyleGuide() {
             { label: "Heading 3 · 20px bold", el: <p className="text-xl font-bold">Data Centers &amp; Critical Infrastructure</p> },
             { label: "Body large · 18px", el: <p className="max-w-2xl text-lg">{site.oneLiner}</p> },
             { label: "Body · 16px", el: <p className="max-w-2xl">We match you with a role that fits your skills, then stay in touch after you start.</p> },
+            { label: "Label · 14px Medium, all caps, wide spacing", el: <p className="text-sm font-medium uppercase tracking-widest text-ink-soft">Infrastructure talent</p> },
             { label: "Small / caption · 14px, ink-soft", el: <p className="text-sm text-ink-soft">Posted 2 days ago · Tampa, FL</p> },
             { label: "Link · action, underlined", el: <p><a href="#type" className="font-semibold text-action underline underline-offset-4 transition-colors duration-150 hover:text-ink">See all open roles</a></p> },
           ].map((row) => (

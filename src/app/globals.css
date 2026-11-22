@@ -19,7 +19,7 @@
   --color-deep-olive: #48432b; /* footer / one dark section, cream text */
   --color-chip: #e9e8dc; /* tag chip background, deep-olive text */
 
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-poppins), Arial, sans-serif;
 }
 
 html {

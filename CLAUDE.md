@@ -88,7 +88,11 @@ These are the only colors. Tailwind's default palette is removed in `src/app/glo
 - **Dark sections** (`deep-olive`) must have the `on-dark` class. It switches the focus ring to cream, because the action-colored ring is only 2.1:1 there. Buttons in dark sections use `variant="on-dark"`.
 
 ### Type
-- **Font:** Inter for everything, via `next/font`. Bold for headlines, regular for body.
+- **Font:** **Poppins** for everything (from the brand kit), loaded via `next/font` with an Arial fallback.
+  - Bold (700) for headlines.
+  - Medium (500), all caps with wide letter spacing (`text-sm font-medium uppercase tracking-widest`), for labels.
+  - Regular (400) for body.
+  - Semibold (600) for buttons and links.
 - **Scale:**
   - H1: `text-4xl md:text-5xl font-bold`
   - H2: `text-2xl md:text-3xl font-bold`

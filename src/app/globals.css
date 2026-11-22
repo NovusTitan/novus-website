@@ -1,26 +1,30 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* Novus "Refined earth" brand tokens. See CLAUDE.md for contrast rules. */
+@theme {
+  --color-brand: #e67d22;
+  --color-action: #b35a2e;
+  --color-ink: #342d2d;
+  --color-ink-soft: #56514d;
+  --color-cream: #fffff8;
+  --color-sand: #f9f3e5;
+  --color-olive: #87855d;
+  --color-olive-deep: #48432b;
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-cream);
+  color: var(--color-ink);
+}
+
+/* Visible keyboard focus everywhere */
+:focus-visible {
+  outline: 3px solid var(--color-action);
+  outline-offset: 2px;
 }

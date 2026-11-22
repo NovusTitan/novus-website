@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import { Logo } from "@/components/Logo";
+import Image from "next/image";
 import { Button, ButtonLink } from "@/components/ui/Button";
 import { Tag } from "@/components/ui/Tag";
 import { Checkbox, SelectField, TextArea, TextField } from "@/components/ui/Field";
@@ -62,26 +62,26 @@ export default function StyleGuide() {
         </p>
       </header>
 
-      <Section id="logo" title="Logo">
-        <div className="grid gap-4 md:grid-cols-3">
-          <div className="flex min-h-32 items-center justify-center rounded-lg border border-sand bg-cream p-6">
-            <Logo />
+      <Section id="logo" title="Logo" intro="Orange or charcoal logo on light backgrounds, white logo on dark. Files are in /public/brand.">
+        <div className="grid gap-4 md:grid-cols-2">
+          <div className="flex min-h-32 items-center justify-center rounded-lg border border-chip bg-cream p-6">
+            <Image src="/brand/site/lockup-horizontal-orange.svg" alt="Novus Infrastructure Talent, orange" width={321} height={36} unoptimized />
           </div>
-          <div className="on-dark flex min-h-32 items-center justify-center rounded-lg bg-deep-olive p-6">
-            <span className="flex items-center gap-2 font-semibold tracking-wide text-cream">
-              <span className="text-xl">NOVUS</span>
-              <span aria-hidden="true" className="h-5 w-px bg-brand-orange" />
-              <span className="text-xs">INFRASTRUCTURE TALENT</span>
-            </span>
+          <div className="flex min-h-32 items-center justify-center rounded-lg bg-deep-olive p-6">
+            <Image src="/brand/site/lockup-horizontal-white.svg" alt="Novus Infrastructure Talent, white" width={321} height={36} unoptimized />
           </div>
-          <div className="flex min-h-32 flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed border-olive p-6 text-center">
-            <p className="font-semibold">Logo files go here</p>
-            <p className="text-sm text-ink-soft">
-              Add the n-mark, icons and lockups to <code>/public/brand</code>. The rounded orange icon becomes the favicon.
-            </p>
+          <div className="flex min-h-32 items-center justify-center rounded-lg border border-chip bg-cream p-6">
+            <Image src="/brand/logo/novus-lockup-stacked-orange.svg" alt="Stacked lockup" width={263} height={120} unoptimized />
+          </div>
+          <div className="flex min-h-32 items-center justify-center gap-6 rounded-lg border border-chip bg-cream p-6">
+            <Image src="/brand/icon/novus-icon-rounded-orange.svg" alt="Rounded orange icon, used as the favicon and app icon" width={64} height={64} unoptimized />
+            <Image src="/brand/icon/novus-n-mark-orange.svg" alt="n-mark, orange" width={64} height={64} unoptimized />
+            <Image src="/brand/icon/novus-n-mark-charcoal.svg" alt="n-mark, charcoal" width={64} height={64} unoptimized />
           </div>
         </div>
-        <p className="mt-4 text-sm text-ink-soft">Text lockup shown until the logo files are added.</p>
+        <p className="mt-4 text-sm text-ink-soft">
+          Header: the &ldquo;novus&rdquo; wordmark on phones and tablets, the full lockup on large screens. The rounded orange icon is the favicon and app icon.
+        </p>
       </Section>
 
       <Section id="colors" title="Colors" tone="sand"

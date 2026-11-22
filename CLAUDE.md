@@ -47,7 +47,11 @@ Don't hand-roll new versions of these.
   - square, circle and rounded icons
   - horizontal lockups
 - **Favicon and app icon:** the rounded orange icon.
-  - Logo files have not been uploaded yet. Until they are, `src/components/Logo.tsx` renders a text lockup.
+  - Originals from the brand kit: `/public/brand/logo` and `/public/brand/icon`.
+  - The site uses tightly cropped copies in `/public/brand/site`. The kit's SVGs have about 25% built-in padding; the cropped copies keep the same artwork and change only the viewBox.
+  - `src/components/Logo.tsx`: the header shows the "novus" wordmark below `lg` and the full lockup at `lg` and up. Dark backgrounds use `<Logo tone="dark" />` (white lockup).
+  - Favicon and app icons: `src/app/favicon.ico`, `icon.svg`, `apple-icon.png`, and `manifest.ts`.
+  - The kit's README: orange or charcoal logo on light backgrounds, white logo on dark or orange backgrounds.
 - **Tagline:** "Building better futures, together."
 - **Elevator pitch:** "Novus is an infrastructure talent company. We find the engineers, builders and technicians behind America's infrastructure, and we only get paid when they stay."
 - **Meaning:** *Novus* is Latin for "new."

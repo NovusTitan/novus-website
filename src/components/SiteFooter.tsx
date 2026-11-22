@@ -2,6 +2,7 @@ import Link from "next/link";
 import { contactLink, loginLink, site } from "@/lib/site";
 import { ButtonLink } from "./ui/Button";
 import { CurrentYear } from "./CurrentYear";
+import { Logo } from "./Logo";
 
 const links = [
   contactLink,
@@ -18,8 +19,8 @@ export function SiteFooter() {
     <footer className="on-dark mt-auto bg-deep-olive text-cream">
       <div className="mx-auto grid max-w-6xl gap-10 px-4 py-12 md:grid-cols-2">
         <div>
-          <p className="text-lg font-bold">{site.name}</p>
-          <p className="mt-1">{site.tagline}</p>
+          <Logo tone="dark" />
+          <p className="mt-4">{site.tagline}</p>
           <address className="mt-5 not-italic">
             {address.street}
             <br />

@@ -109,7 +109,7 @@ These are the only colors. Tailwind's default palette is removed in `src/app/glo
   - **Max 2 buttons per section:** solid for the main action, outlined for the second.
 - **Every page answers in 5 seconds:** what is this, who is it for, what do I do next.
 - **Home page.** The sections, in this order, and nothing else:
-  1. Hero: tagline, pitch, and two big buttons, "Find a job" (solid action) and "Hire talent" (outlined action)
+  1. Hero: tagline, pitch, and two big buttons, "Build my career" (solid action, to /jobs) and "Build my team" (outlined action, to /employers)
   2. Industries
   3. Open roles near you
   4. How it works (3 steps)

@@ -123,8 +123,8 @@ export default function StyleGuide() {
 
       <Section id="buttons" title="Buttons" tone="sand" intro="Solid for the main action, outlined for the second. Two buttons per section at most.">
         <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-          <ButtonLink href="/jobs">Find a job</ButtonLink>
-          <ButtonLink href="/employers" variant="outline">Hire talent</ButtonLink>
+          <ButtonLink href="/jobs">Build my career</ButtonLink>
+          <ButtonLink href="/employers" variant="outline">Build my team</ButtonLink>
         </div>
         <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
           <Button loading>Sending…</Button>

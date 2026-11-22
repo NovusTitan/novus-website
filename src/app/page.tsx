@@ -38,8 +38,8 @@ export default function Home() {
           <h1 className="mt-4 max-w-3xl text-4xl font-bold leading-tight md:text-6xl">{site.tagline}</h1>
           <p className="mt-6 max-w-2xl text-lg md:text-xl">{site.oneLiner}</p>
           <div className="mt-10 flex flex-col gap-3 sm:flex-row">
-            <ButtonLink href="/jobs" className="min-h-14 px-8 text-lg">Find a job</ButtonLink>
-            <ButtonLink href="/employers" variant="outline" className="min-h-14 px-8 text-lg">Hire talent</ButtonLink>
+            <ButtonLink href="/jobs" className="min-h-14 px-8 text-lg">Build my career</ButtonLink>
+            <ButtonLink href="/employers" variant="outline" className="min-h-14 px-8 text-lg">Build my team</ButtonLink>
           </div>
         </div>
       </section>

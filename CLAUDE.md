@@ -147,6 +147,59 @@ These are the only colors. Tailwind's default palette is removed in `src/app/glo
 
 ---
 
+## Job board (Phase 1)
+
+### Who can do what
+- **Job seekers** (`candidate` role) create an account and apply.
+- **Novus staff** (`recruiter` or `admin`) post jobs and review applicants.
+- **Employers:** the `employer` role is reserved for Phase 3, as invite-only accounts. Nothing grants it yet.
+- **Making someone staff** is done by hand in the Supabase SQL editor:
+  ```sql
+  update public.profiles set role = 'recruiter' where email = 'name@novustalent.co';
+  ```
+  No one can change their own role: column grants block it, and sign-up always creates `candidate`.
+
+### Database
+The schema lives in `supabase/migrations/`. New changes go in new migration files; never edit an applied migration.
+
+| Table | Holds | Who can see it (RLS) |
+|---|---|---|
+| `profiles` | Name, email, phone, trade, role | Own row, or staff. Users may update only `full_name`, `phone` and `trade`. |
+| `jobs` | Public job posts: `draft` / `open` / `closed` | Anyone sees `open` jobs. Staff see all. Candidates also see jobs they applied to. Staff-only writes. |
+| `job_internal` | Client company and internal notes | Staff only. Kept in its own table so it can't leak through the public feed. |
+| `applications` | Job, candidate, trade, note, resume path, status | Own rows, or staff. Candidates insert for themselves, into open jobs only, with status `new`. Only staff update. |
+| `storage: resumes` | Private bucket, 5 MB, PDF/Word, stored at `<user id>/<file>` | Owner and staff. Staff open files through `/admin/resume/[id]` (60-second signed URL). |
+
+- **Policy helpers** are `SECURITY DEFINER` functions: `is_staff()`, `job_is_open()` and `has_applied()`. They prevent policy recursion between `jobs` and `applications`.
+- **RLS tests:** run the SQL checks from a fresh local database after any policy change.
+
+### Pages
+- **Public:**
+  - `/jobs` (filters are a GET form)
+  - `/jobs/[slug]`
+  - `/jobs/[slug]/apply` (step 1: account; step 2: apply)
+- **Account:**
+  - `/login`, `/signup`, `/forgot-password`
+  - `/account` (my applications)
+  - `/account/reset-password`
+  - `/auth/confirm` handles email links, both `token_hash` and `code` styles.
+- **Staff:**
+  - `/admin/jobs`, `/admin/jobs/new`
+  - `/admin/jobs/[id]` (edit the job, applicants, status)
+- **Data helpers:**
+  - Public job data: `src/lib/data/jobs.ts`. These are cached with `use cache` and tagged `jobs`. Staff actions call `updateTag("jobs")`.
+  - Session helpers: `src/lib/auth.ts`.
+- **Cache Components rule:** anything that reads cookies, `params` or `searchParams` sits inside `<Suspense>`.
+- **Client name:** never select `job_internal` outside `/admin`. Public job queries use `PUBLIC_JOB_COLUMNS` only.
+
+### Local development
+- `npm run db:start` runs a local Supabase. It needs Docker.
+- Point `.env.local` at the local URL and key that it prints.
+- Test emails show up in Mailpit at http://127.0.0.1:54324.
+- After changing the schema, run `npm run db:reset`, then `npm run db:types`.
+
+---
+
 ## Tech
 - **Next.js 16** (App Router, TypeScript, `src/` dir).
   - Middleware is now `src/proxy.ts`.

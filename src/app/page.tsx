@@ -1,5 +1,7 @@
 import type { ReactNode } from "react";
 import { ButtonLink } from "@/components/ui/Button";
+import { JobCard } from "@/components/jobs/JobCard";
+import { getOpenJobs } from "@/lib/data/jobs";
 import { contactLink, site } from "@/lib/site";
 
 // Home page order is fixed by Brand & UX (CLAUDE.md):
@@ -56,15 +58,9 @@ export default function Home() {
         </ul>
       </Section>
 
-      {/* 3. Open roles near you. Placeholder until the job board exists. */}
+      {/* 3. Open roles: the 3 newest open jobs (cached; updates when staff edit jobs). */}
       <Section id="open-roles" title="Open roles near you">
-        <div className="flex flex-col items-start gap-5 rounded-lg border-2 border-dashed border-olive p-6 md:flex-row md:items-center md:justify-between md:p-8">
-          <div>
-            <p className="text-lg font-semibold">Open roles are coming soon.</p>
-            <p className="mt-1 text-ink-soft">New jobs in engineering, construction, data centers and more will show up here.</p>
-          </div>
-          <ButtonLink href="/jobs" className="shrink-0">See all jobs</ButtonLink>
-        </div>
+        <LatestJobs />
       </Section>
 
       {/* 4. How it works */}
@@ -104,6 +100,33 @@ export default function Home() {
           {site.address.street}, {site.address.city}, {site.address.region} {site.address.postal}
         </address>
       </Section>
+    </>
+  );
+}
+
+async function LatestJobs() {
+  const jobs = (await getOpenJobs()).slice(0, 3);
+  if (!jobs.length) {
+    return (
+      <div className="flex flex-col items-start gap-5 rounded-lg border-2 border-dashed border-olive p-6 md:flex-row md:items-center md:justify-between md:p-8">
+        <div>
+          <p className="text-lg font-semibold">New roles are on the way.</p>
+          <p className="mt-1 text-ink-soft">Jobs in engineering, construction, data centers and more will show up here.</p>
+        </div>
+        <ButtonLink href="/jobs" className="shrink-0">See all jobs</ButtonLink>
+      </div>
+    );
+  }
+  return (
+    <>
+      <ul className="grid gap-4 md:grid-cols-3">
+        {jobs.map((job) => (
+          <li key={job.id}>
+            <JobCard job={job} />
+          </li>
+        ))}
+      </ul>
+      <ButtonLink href="/jobs" className="mt-8">See all jobs</ButtonLink>
     </>
   );
 }

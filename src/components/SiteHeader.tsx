@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { Logo } from "./Logo";
 import { buttonClass } from "./ui/Button";
 import { contactLink, loginLink, mainNav, site } from "@/lib/site";
@@ -10,22 +10,15 @@ import { contactLink, loginLink, mainNav, site } from "@/lib/site";
 // Header: 5 items max (4 links + Contact button), sticky, simple mobile menu.
 // On phones the Contact button and phone number stay visible next to the menu button.
 export function SiteHeader() {
-  const pathname = usePathname();
-  // The menu remembers which page it was opened on, so it closes itself after navigating.
-  const [openOn, setOpenOn] = useState<string | null>(null);
-  const open = openOn === pathname;
+  const [open, setOpen] = useState(false);
+  const close = () => setOpen(false);
 
   // Close the mobile menu on Escape.
   useEffect(() => {
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpenOn(null);
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, []);
-
-  const linkClass = (href: string) =>
-    `flex min-h-11 items-center rounded px-2 font-medium transition-colors duration-150 hover:text-action md:px-0 ${
-      pathname.startsWith(href) ? "text-action" : "text-ink"
-    }`;
 
   return (
     <header className="sticky top-0 z-40 border-b border-chip bg-cream">
@@ -36,7 +29,7 @@ export function SiteHeader() {
         Skip to content
       </a>
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-2 px-4 py-2">
-        <Link href="/" className="flex min-h-11 items-center rounded">
+        <Link href="/" className="flex min-h-11 items-center rounded" onClick={close}>
           <Logo />
           <span className="sr-only"> home</span>
         </Link>
@@ -55,7 +48,7 @@ export function SiteHeader() {
             className="inline-flex min-h-11 min-w-11 items-center justify-center rounded text-ink"
             aria-expanded={open}
             aria-controls="main-nav"
-            onClick={() => setOpenOn(open ? null : pathname)}
+            onClick={() => setOpen(!open)}
           >
             <span className="sr-only">{open ? "Close menu" : "Open menu"}</span>
             <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
@@ -69,33 +62,53 @@ export function SiteHeader() {
           aria-label="Main"
           className={`${open ? "block" : "hidden"} absolute inset-x-0 top-full border-b border-chip bg-cream px-4 pb-4 md:static md:block md:border-0 md:p-0`}
         >
-          <ul className="flex flex-col gap-1 md:flex-row md:items-center md:gap-6">
-            {mainNav.map((item) => (
-              <li key={item.href}>
-                <Link
-                  href={item.href}
-                  aria-current={pathname.startsWith(item.href) ? "page" : undefined}
-                  className={linkClass(item.href)}
-                >
-                  {item.label}
-                </Link>
-              </li>
-            ))}
-            {/* Log in lives in the footer on desktop; in the mobile menu it's here. */}
-            <li className="md:hidden">
-              <Link href={loginLink.href} className={linkClass(loginLink.href)}>
-                {loginLink.label}
-              </Link>
-            </li>
-            <li className="mt-2 md:mt-0">
-              <Link href={contactLink.href} className={buttonClass("solid", "w-full min-h-11 px-5 md:w-auto")}>
-                {contactLink.label}
-              </Link>
-            </li>
-          </ul>
+          {/* The current-page highlight needs the URL, which streams in; the links work before it does. */}
+          <Suspense fallback={<NavItems pathname="" onNavigate={close} />}>
+            <NavItemsForCurrentPage onNavigate={close} />
+          </Suspense>
         </nav>
       </div>
     </header>
+  );
+}
+
+function NavItemsForCurrentPage({ onNavigate }: { onNavigate: () => void }) {
+  return <NavItems pathname={usePathname()} onNavigate={onNavigate} />;
+}
+
+function NavItems({ pathname, onNavigate }: { pathname: string; onNavigate: () => void }) {
+  const isCurrent = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
+  const linkClass = (href: string) =>
+    `flex min-h-11 items-center rounded px-2 font-medium transition-colors duration-150 hover:text-action md:px-0 ${
+      isCurrent(href) ? "text-action" : "text-ink"
+    }`;
+
+  return (
+    <ul className="flex flex-col gap-1 md:flex-row md:items-center md:gap-6">
+      {mainNav.map((item) => (
+        <li key={item.href}>
+          <Link
+            href={item.href}
+            aria-current={isCurrent(item.href) ? "page" : undefined}
+            className={linkClass(item.href)}
+            onClick={onNavigate}
+          >
+            {item.label}
+          </Link>
+        </li>
+      ))}
+      {/* Log in lives in the footer on desktop; in the mobile menu it's here. */}
+      <li className="md:hidden">
+        <Link href={loginLink.href} className={linkClass(loginLink.href)} onClick={onNavigate}>
+          {loginLink.label}
+        </Link>
+      </li>
+      <li className="mt-2 md:mt-0">
+        <Link href={contactLink.href} className={buttonClass("solid", "w-full min-h-11 px-5 md:w-auto")} onClick={onNavigate}>
+          {contactLink.label}
+        </Link>
+      </li>
+    </ul>
   );
 }
 

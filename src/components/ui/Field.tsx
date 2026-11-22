@@ -8,16 +8,16 @@ const control =
   "transition-colors duration-150 hover:border-ink focus:border-action focus-visible:outline-offset-0 " +
   "aria-invalid:border-action";
 
-type Common = { label: string; hint?: string; error?: string; optional?: boolean };
+type Common = { label: string; hint?: string; error?: string; optional?: boolean; hideOptionalLabel?: boolean };
 
 function Wrapper({
-  id, label, hint, error, optional, children,
+  id, label, hint, error, optional, hideOptionalLabel, children,
 }: Common & { id: string; children: ReactNode }) {
   return (
     <div className="flex flex-col gap-1.5">
       <label htmlFor={id} className="font-semibold text-ink">
         {label}
-        {optional && <span className="font-normal text-ink-soft"> (optional)</span>}
+        {optional && !hideOptionalLabel && <span className="font-normal text-ink-soft"> (optional)</span>}
       </label>
       {hint && (
         <p id={`${id}-hint`} className="text-sm text-ink-soft">
@@ -76,11 +76,11 @@ export function TextArea({ label, hint, error, optional, ...rest }: Common & Com
 }
 
 export function SelectField({
-  label, hint, error, optional, children, ...rest
+  label, hint, error, optional, hideOptionalLabel, children, ...rest
 }: Common & ComponentProps<"select">) {
   const id = useId();
   return (
-    <Wrapper id={id} label={label} hint={hint} error={error} optional={optional}>
+    <Wrapper id={id} label={label} hint={hint} error={error} optional={optional} hideOptionalLabel={hideOptionalLabel}>
       <select
         id={id}
         required={!optional}

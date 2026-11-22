@@ -61,3 +61,31 @@ The domain's DNS is managed at **name.com**. Log in, go to My Domains → novust
 2. Search your email for "name.com".
 3. Use "Forgot password" at name.com.
 4. Or contact name.com support to prove ownership.
+
+## 6. Set up the live database for the job board (one time)
+The job board needs its tables in your **hosted** Supabase project. Until this is done, the site still works, but it shows "no open jobs".
+
+1. **Create the tables and security rules.**
+   1. In Supabase, open **SQL Editor** and click **New query**.
+   2. Open `supabase/migrations/20261122000000_job_board.sql` on GitHub, click **Raw**, and copy everything.
+   3. Paste it into the SQL Editor and click **Run**. You should see "Success. No rows returned."
+
+   Run it **once**. Running it a second time errors, because the tables already exist, and that's harmless.
+2. **Tell Supabase where the site lives.** Open **Authentication → URL Configuration**:
+   - **Site URL:** `https://novus-website-ochre.vercel.app`. Change it to `https://www.novustalent.co` once the domain is connected.
+   - **Redirect URLs:** add `https://novus-website-ochre.vercel.app/**`. When the domain is live, also add `https://www.novustalent.co/**`.
+3. **Email templates.** These make the links in emails work from any phone or email app. Open **Authentication → Emails → Templates**:
+   - **Confirm signup:** set the subject to "Confirm your Novus account". Replace the body with the contents of `supabase/templates/confirmation.html`.
+   - **Reset password:** set the subject to "Reset your Novus password". Replace the body with the contents of `supabase/templates/recovery.html`.
+4. **Make yourself a recruiter.**
+   1. Create an account on the site (Log in → Create an account).
+   2. Run this in the SQL Editor, using your own email:
+      ```sql
+      update public.profiles set role = 'recruiter' where email = 'you@example.com';
+      ```
+   3. Log in again. **My account** now shows a **Recruiter dashboard** button (`/admin/jobs`).
+
+### Before real job seekers sign up: email sending
+Supabase's built-in email only sends a few emails per hour, and it's meant for testing. Pick one:
+- **Recommended:** connect a real email service such as Resend (free tier) under **Authentication → Emails → SMTP Settings**.
+- **Stopgap:** turn off **Confirm email** under **Authentication → Sign In / Providers → Email**. People can then apply right after signing up, without confirming. The trade-off is that email addresses aren't verified.

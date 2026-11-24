@@ -17,9 +17,29 @@ Shared copy lives in `src/lib/site.ts`. Use it instead of retyping company detai
 - **Novus recruiters/admins**
 
 ## Pricing model: Novus Flex
-- An **activation fee** opens a search. One fee covers a group of roles opened together.
-- The employer then picks **Flex 0** (one-time fee), **Flex 3**, **Flex 6**, or a **weekly-payment agreement**.
-- Fees are **12–25% of salary**.
+Source: the client agreements, forms NF-0, NF-3 and NF-6 (rev. 11/2026). Public copy lives in `src/lib/flex.ts`; keep it in sync with the agreements.
+
+**Search activation**
+- The fee is $2,000. It opens up to 3 roles and is credited toward the placement fee.
+- If Novus doesn't deliver a shortlist within 10 business days of the intake call, the fee is refunded.
+- If a search is paused, the fee carries over to a new search started within 6 months.
+
+**Payment plans**
+- **Flex 0:** 18%, paid once on the start date. 90-day replacement guarantee (a replacement, not a refund).
+- **Flex 3:** 20%, in 3 monthly payments. If the hire leaves, payments stop and Novus runs a free replacement search.
+- **Flex 6:** 22%, in 6 monthly payments. Same protection as Flex 3. Paying off early brings the total to 20%.
+- **Weekly:** a weekly-payment agreement. No agreement is on file yet, so the copy stays general.
+
+**Applies to all plans**
+- Fees are a percentage of first-year base salary, with a $12,000 minimum.
+- Roles over $250,000 base salary are priced separately.
+- The original brief said "12–25% of salary". The agreements say 18–22%, so the site shows the per-plan numbers, not a range.
+
+## Outplacement: Novus Transition
+Source: agreement form NT-1 (rev. 11/2026). Public copy lives in `src/lib/outplacement.ts`.
+- **Packages, per person enrolled:** Field $750 (60 days), Professional $2,000 (90 days), Leadership $5,000 (6 months).
+- **Placement credit:** 50% of the package fee as invoice credit if Novus places the participant.
+- **No guarantee of a hire.** A participant's new employer is shared only with their consent.
 
 ## Rules (always)
 1. **Mobile-first** on every page. Design for ~360px wide first, then scale up.

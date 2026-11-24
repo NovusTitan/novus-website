@@ -1,19 +1,51 @@
 // Novus Flex: the employer pricing model. All public pricing copy lives here so
 // it's easy to review and change in one place.
-// NOTE: the one-line descriptions of Flex 3 / Flex 6 / Weekly are a first draft;
-// confirm the exact terms with Novus before relying on them.
+//
+// Source: Novus Flex client agreements (forms NF-0, NF-3, NF-6, rev. 11/2026).
+// Keep this in sync with the agreements. If they change, update this file.
+// "Weekly" has no agreement on file yet, so its copy stays general.
 
 export const flex = {
   name: "Novus Flex",
-  feeRange: "12–25% of salary",
   activation: {
-    title: "Activation fee",
-    body: "One activation fee opens your search. It covers a group of roles opened together, so hiring three electricians doesn't mean three fees.",
+    title: "$2,000 search activation",
+    points: [
+      "Opens up to three roles at once.",
+      "Credited toward your placement fee when you hire.",
+      "Qualified shortlist within 10 business days of your intake call, or your activation fee back.",
+      "Pause a search and the fee carries over to a new search within 6 months.",
+    ],
   },
   options: [
-    { name: "Flex 0", body: "One-time fee when your hire starts." },
-    { name: "Flex 3", body: "The fee spread over your hire's first 3 months." },
-    { name: "Flex 6", body: "The fee spread over your hire's first 6 months." },
-    { name: "Weekly", body: "A weekly-payment agreement while your hire is on the job." },
+    {
+      name: "Flex 0",
+      fee: "18%",
+      payment: "Paid once, when your hire starts",
+      protection: "Free replacement search if the hire leaves within 90 days",
+    },
+    {
+      name: "Flex 3",
+      fee: "20%",
+      payment: "3 equal monthly payments",
+      protection: "If the hire leaves, payments stop and we run a replacement search at no fee",
+    },
+    {
+      name: "Flex 6",
+      fee: "22%",
+      payment: "6 equal monthly payments, or pay off early for 20% in total",
+      protection: "If the hire leaves, payments stop and we run a replacement search at no fee",
+    },
+    {
+      name: "Weekly",
+      fee: null,
+      payment: "A weekly-payment agreement while your hire is on the job",
+      protection: "Ask us for details",
+    },
+  ],
+  feeBasis: "Fees are a percentage of the hire's first-year base salary (not bonus, commission or benefits).",
+  fineprint: [
+    "$12,000 minimum placement fee on Flex 0, Flex 3 and Flex 6.",
+    "Roles over $250,000 base salary are priced separately.",
+    "Your signed agreement sets the final terms.",
   ],
 };

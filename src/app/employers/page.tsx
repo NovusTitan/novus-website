@@ -63,16 +63,14 @@ export default function EmployersPage() {
               <p className="text-sm font-medium uppercase tracking-widest text-ink-soft">Step 2</p>
               <h3 className="mt-2 text-xl font-bold">Pick how you pay</h3>
               <p className="mt-1 text-ink-soft">{flex.feeBasis}</p>
-              <ul className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              <ul className="mt-5 grid gap-4 md:grid-cols-3">
                 {flex.options.map((o) => (
                   <li key={o.name} className="flex flex-col gap-2 rounded-md bg-sand p-5">
                     <p className="text-lg font-bold">{o.name}</p>
-                    {o.fee && (
-                      <p>
-                        <span className="text-3xl font-bold">{o.fee}</span>{" "}
-                        <span className="text-sm text-ink-soft">of base salary</span>
-                      </p>
-                    )}
+                    <p>
+                      <span className="text-3xl font-bold">{o.fee}</span>{" "}
+                      <span className="text-sm text-ink-soft">of base salary</span>
+                    </p>
                     <p className="font-semibold">{o.payment}</p>
                     <p className="text-sm text-ink-soft">{o.protection}</p>
                   </li>

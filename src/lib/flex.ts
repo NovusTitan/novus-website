@@ -3,7 +3,7 @@
 //
 // Source: Novus Flex client agreements (forms NF-0, NF-3, NF-6, rev. 11/2026).
 // Keep this in sync with the agreements. If they change, update this file.
-// "Weekly" has no agreement on file yet, so its copy stays general.
+// Plans offered: Flex 0, Flex 3 and Flex 6 only (no weekly plan for now).
 
 export const flex = {
   name: "Novus Flex",
@@ -34,12 +34,6 @@ export const flex = {
       fee: "22%",
       payment: "6 equal monthly payments, or pay off early for 20% in total",
       protection: "If the hire leaves, payments stop and we run a replacement search at no fee",
-    },
-    {
-      name: "Weekly",
-      fee: null,
-      payment: "A weekly-payment agreement while your hire is on the job",
-      protection: "Ask us for details",
     },
   ],
   feeBasis: "Fees are a percentage of the hire's first-year base salary (not bonus, commission or benefits).",

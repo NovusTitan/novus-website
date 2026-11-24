@@ -28,7 +28,7 @@ Source: the client agreements, forms NF-0, NF-3 and NF-6 (rev. 11/2026). Public 
 - **Flex 0:** 18%, paid once on the start date. 90-day replacement guarantee (a replacement, not a refund).
 - **Flex 3:** 20%, in 3 monthly payments. If the hire leaves, payments stop and Novus runs a free replacement search.
 - **Flex 6:** 22%, in 6 monthly payments. Same protection as Flex 3. Paying off early brings the total to 20%.
-- **Weekly:** a weekly-payment agreement. No agreement is on file yet, so the copy stays general.
+- **No weekly plan for now.** Only Flex 0, Flex 3 and Flex 6 are offered.
 
 **Applies to all plans**
 - Fees are a percentage of first-year base salary, with a $12,000 minimum.

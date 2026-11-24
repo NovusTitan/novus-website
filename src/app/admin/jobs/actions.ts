@@ -35,6 +35,7 @@ const jobSchema = z
     status: z.enum(["draft", "open", "closed"]),
     client_name: z.string().trim().max(200),
     notes: z.string().trim().max(5000),
+    employer_id: z.union([z.literal(""), z.uuid()]).transform((v) => (v === "" ? null : v)),
   })
   .superRefine((d, ctx) => {
     if ((d.pay_min != null || d.pay_max != null) && !d.pay_period) {
@@ -57,7 +58,7 @@ export async function saveJob(_prev: JobFormState, fd: FormData): Promise<JobFor
   await staffOnly();
   const raw = Object.fromEntries(
     ["title", "industry", "city", "state", "employment_type", "pay_min", "pay_max", "pay_period", "summary",
-      "description", "requirements", "status", "client_name", "notes"].map((k) => [k, String(fd.get(k) ?? "")]),
+      "description", "requirements", "status", "client_name", "notes", "employer_id"].map((k) => [k, String(fd.get(k) ?? "")]),
   );
   const parsed = jobSchema.safeParse(raw);
   if (!parsed.success) {
@@ -65,14 +66,14 @@ export async function saveJob(_prev: JobFormState, fd: FormData): Promise<JobFor
     for (const i of parsed.error.issues) fieldErrors[String(i.path[0])] ??= i.message;
     return { error: "Please fix the highlighted fields.", fieldErrors };
   }
-  const { client_name, notes, ...job } = parsed.data;
+  const { client_name, notes, employer_id, ...job } = parsed.data;
   const id = String(fd.get("id") ?? "");
   const supabase = await createClient();
 
   if (id) {
     const { error } = await supabase.from("jobs").update(job).eq("id", id);
     if (error) return { error: "We couldn't save this job. Please try again." };
-    const { error: e2 } = await supabase.from("job_internal").upsert({ job_id: id, client_name, notes });
+    const { error: e2 } = await supabase.from("job_internal").upsert({ job_id: id, client_name, notes, employer_id });
     if (e2) return { error: "The job saved, but the internal details didn't. Please try again." };
     updateTag("jobs");
     refresh();
@@ -85,7 +86,7 @@ export async function saveJob(_prev: JobFormState, fd: FormData): Promise<JobFor
     .select("id")
     .single();
   if (error || !data) return { error: "We couldn't create this job. Please try again." };
-  await supabase.from("job_internal").insert({ job_id: data.id, client_name, notes });
+  await supabase.from("job_internal").insert({ job_id: data.id, client_name, notes, employer_id });
   updateTag("jobs");
   redirect(`/admin/jobs/${data.id}?created=1`);
 }

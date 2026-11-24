@@ -7,6 +7,7 @@ import { Tag } from "@/components/ui/Tag";
 import { requireStaff } from "@/lib/auth";
 import { JOB_STATUS_LABELS, jobLocation } from "@/lib/jobs";
 import { createClient } from "@/lib/supabase/server";
+import { AdminNav } from "../AdminNav";
 import { NoAccess } from "../NoAccess";
 
 export const metadata: Metadata = { title: "Jobs · Recruiter dashboard", robots: { index: false } };
@@ -33,11 +34,9 @@ async function AdminJobs() {
 
   return (
     <>
+      <AdminNav current="/admin/jobs" />
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-        <div>
-          <p className="text-sm font-medium uppercase tracking-widest text-ink-soft">Recruiter dashboard</p>
-          <h1 className="mt-1 text-3xl font-bold md:text-4xl">Jobs</h1>
-        </div>
+        <h1 className="text-3xl font-bold md:text-4xl">Jobs</h1>
         <ButtonLink href="/admin/jobs/new">Post a job</ButtonLink>
       </div>
 

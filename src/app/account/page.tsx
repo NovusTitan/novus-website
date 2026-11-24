@@ -6,7 +6,7 @@ import { FormSkeleton } from "@/components/layout/Narrow";
 import { Alert } from "@/components/ui/Alert";
 import { Button, ButtonLink } from "@/components/ui/Button";
 import { Tag } from "@/components/ui/Tag";
-import { isStaff, requireProfile } from "@/lib/auth";
+import { isEmployer, isStaff, requireProfile } from "@/lib/auth";
 import { APPLICATION_STATUS_LABELS, jobLocation } from "@/lib/jobs";
 import { createClient } from "@/lib/supabase/server";
 
@@ -48,6 +48,7 @@ async function AccountContent({ searchParams }: Pick<PageProps<"/account">, "sea
         </div>
         <div className="flex flex-col gap-3 sm:items-end">
           {isStaff(profile) && <ButtonLink href="/admin/jobs">Recruiter dashboard</ButtonLink>}
+          {isEmployer(profile) && <ButtonLink href="/employer">Employer portal</ButtonLink>}
           <form action={logOut}>
             <Button type="submit" variant="outline" className="w-full sm:w-auto">
               Log out

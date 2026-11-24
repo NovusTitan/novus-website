@@ -40,3 +40,7 @@ export async function requireStaff(next: string): Promise<Profile | null> {
   const profile = await requireProfile(next);
   return isStaff(profile) ? profile : null;
 }
+
+export function isEmployer(profile: Pick<Profile, "role"> | null) {
+  return profile?.role === "employer";
+}

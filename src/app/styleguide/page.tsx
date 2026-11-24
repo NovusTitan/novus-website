@@ -166,7 +166,7 @@ export default function StyleGuide() {
             </svg>
             <div>
               <p className="font-semibold">Thanks, we got it.</p>
-              <p className="text-sm text-ink-soft">A recruiter will reach out within one business day.</p>
+              <p className="text-sm text-ink-soft">A recruiter will reach out soon.</p>
             </div>
           </div>
         </form>

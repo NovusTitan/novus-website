@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { FormSkeleton } from "@/components/layout/Narrow";
 import { requireStaff } from "@/lib/auth";
+import { createClient } from "@/lib/supabase/server";
 import { NoAccess } from "../../NoAccess";
 import { JobForm } from "../JobForm";
 
@@ -27,5 +28,7 @@ export default function NewJobPage() {
 
 async function NewJob() {
   if (!(await requireStaff("/admin/jobs/new"))) return <NoAccess />;
-  return <JobForm />;
+  const supabase = await createClient();
+  const { data: employers } = await supabase.from("employers").select("id, name").order("name");
+  return <JobForm employers={employers ?? []} />;
 }

@@ -7,9 +7,10 @@ import { SelectField, TextArea, TextField } from "@/components/ui/Field";
 import { EMPLOYMENT_TYPES, INDUSTRIES, JOB_STATUS_LABELS, US_STATES, type Job, type JobStatus } from "@/lib/jobs";
 import { saveJob, type JobFormState } from "./actions";
 
-type Initial = Partial<Job> & { client_name?: string; notes?: string };
+type Initial = Partial<Job> & { client_name?: string; notes?: string; employer_id?: string | null };
+type EmployerOption = { id: string; name: string };
 
-export function JobForm({ job }: { job?: Initial }) {
+export function JobForm({ job, employers = [] }: { job?: Initial; employers?: EmployerOption[] }) {
   const [state, action, pending] = useActionState<JobFormState, FormData>(saveJob, {});
   const e = state.fieldErrors ?? {};
   const v = job ?? {};
@@ -90,6 +91,20 @@ export function JobForm({ job }: { job?: Initial }) {
       <fieldset className="grid gap-5 rounded-lg border-2 border-dashed border-olive p-5">
         <legend className="px-2 text-xl font-bold">Internal (Novus staff only)</legend>
         <p className="-mt-2 text-sm text-ink-soft">Never shown to candidates or the public.</p>
+        <SelectField
+          label="Employer account"
+          name="employer_id"
+          defaultValue={v.employer_id ?? ""}
+          optional
+          hint="Links this job to an employer so their users can see the shortlist in the employer portal."
+        >
+          <option value="">None</option>
+          {employers.map((emp) => (
+            <option key={emp.id} value={emp.id}>
+              {emp.name}
+            </option>
+          ))}
+        </SelectField>
         <TextField label="Client company" name="client_name" defaultValue={v.client_name} error={e.client_name} optional />
         <TextArea label="Notes" name="notes" defaultValue={v.notes} error={e.notes} rows={3} optional />
       </fieldset>

@@ -86,9 +86,118 @@ export type Database = {
           },
         ];
       };
+      employer_invites: {
+        Row: {
+          accepted_at: string | null;
+          accepted_by: string | null;
+          created_at: string;
+          email: string;
+          employer_id: string;
+          expires_at: string;
+          id: string;
+          token: string;
+        };
+        ComputedFields: never;
+        Insert: {
+          accepted_at?: string | null;
+          accepted_by?: string | null;
+          created_at?: string;
+          email: string;
+          employer_id: string;
+          expires_at?: string;
+          id?: string;
+          token?: string;
+        };
+        Update: {
+          accepted_at?: string | null;
+          accepted_by?: string | null;
+          created_at?: string;
+          email?: string;
+          employer_id?: string;
+          expires_at?: string;
+          id?: string;
+          token?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "employer_invites_accepted_by_fkey";
+            columns: ["accepted_by"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "employer_invites_employer_id_fkey";
+            columns: ["employer_id"];
+            isOneToOne: false;
+            referencedRelation: "employers";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      employer_members: {
+        Row: {
+          created_at: string;
+          employer_id: string;
+          user_id: string;
+        };
+        ComputedFields: never;
+        Insert: {
+          created_at?: string;
+          employer_id: string;
+          user_id: string;
+        };
+        Update: {
+          created_at?: string;
+          employer_id?: string;
+          user_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "employer_members_employer_id_fkey";
+            columns: ["employer_id"];
+            isOneToOne: false;
+            referencedRelation: "employers";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "employer_members_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      employers: {
+        Row: {
+          created_at: string;
+          id: string;
+          name: string;
+          notes: string;
+          updated_at: string;
+        };
+        ComputedFields: never;
+        Insert: {
+          created_at?: string;
+          id?: string;
+          name: string;
+          notes?: string;
+          updated_at?: string;
+        };
+        Update: {
+          created_at?: string;
+          id?: string;
+          name?: string;
+          notes?: string;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
       job_internal: {
         Row: {
           client_name: string;
+          employer_id: string | null;
           job_id: string;
           notes: string;
           updated_at: string;
@@ -96,17 +205,26 @@ export type Database = {
         ComputedFields: never;
         Insert: {
           client_name?: string;
+          employer_id?: string | null;
           job_id: string;
           notes?: string;
           updated_at?: string;
         };
         Update: {
           client_name?: string;
+          employer_id?: string | null;
           job_id?: string;
           notes?: string;
           updated_at?: string;
         };
         Relationships: [
+          {
+            foreignKeyName: "job_internal_employer_id_fkey";
+            columns: ["employer_id"];
+            isOneToOne: false;
+            referencedRelation: "employers";
+            referencedColumns: ["id"];
+          },
           {
             foreignKeyName: "job_internal_job_id_fkey";
             columns: ["job_id"];
@@ -222,14 +340,142 @@ export type Database = {
         };
         Relationships: [];
       };
+      search_requests: {
+        Row: {
+          company: string;
+          contact_name: string;
+          created_at: string;
+          email: string;
+          id: string;
+          location: string;
+          phone: string;
+          roles: string;
+          staff_notes: string;
+          status: Database["public"]["Enums"]["search_request_status"];
+          updated_at: string;
+        };
+        ComputedFields: never;
+        Insert: {
+          company: string;
+          contact_name: string;
+          created_at?: string;
+          email: string;
+          id?: string;
+          location?: string;
+          phone?: string;
+          roles: string;
+          staff_notes?: string;
+          status?: Database["public"]["Enums"]["search_request_status"];
+          updated_at?: string;
+        };
+        Update: {
+          company?: string;
+          contact_name?: string;
+          created_at?: string;
+          email?: string;
+          id?: string;
+          location?: string;
+          phone?: string;
+          roles?: string;
+          staff_notes?: string;
+          status?: Database["public"]["Enums"]["search_request_status"];
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
+      shortlist: {
+        Row: {
+          application_id: string;
+          created_at: string;
+          id: string;
+          released_at: string | null;
+          released_by: string | null;
+          summary: string;
+          updated_at: string;
+          years_experience: number | null;
+        };
+        ComputedFields: never;
+        Insert: {
+          application_id: string;
+          created_at?: string;
+          id?: string;
+          released_at?: string | null;
+          released_by?: string | null;
+          summary?: string;
+          updated_at?: string;
+          years_experience?: number | null;
+        };
+        Update: {
+          application_id?: string;
+          created_at?: string;
+          id?: string;
+          released_at?: string | null;
+          released_by?: string | null;
+          summary?: string;
+          updated_at?: string;
+          years_experience?: number | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "shortlist_application_id_fkey";
+            columns: ["application_id"];
+            isOneToOne: true;
+            referencedRelation: "applications";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "shortlist_released_by_fkey";
+            columns: ["released_by"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
     };
     Views: {
       [_ in never]: never;
     };
     Functions: {
+      accept_employer_invite: { Args: { p_token: string }; Returns: string };
+      employer_can_read_resume: { Args: { p_name: string }; Returns: boolean };
+      employer_candidates: {
+        Args: { p_job_id: string };
+        Returns: {
+          email: string;
+          full_name: string;
+          has_resume: boolean;
+          label: string;
+          phone: string;
+          released_at: string;
+          shortlist_id: string;
+          summary: string;
+          trade: Database["public"]["Enums"]["industry"];
+          years_experience: number;
+        }[];
+      };
+      employer_resume_path: {
+        Args: { p_shortlist_id: string };
+        Returns: string;
+      };
+      employer_searches: {
+        Args: Record<PropertyKey, never>;
+        Returns: {
+          city: string;
+          employer_name: string;
+          industry: Database["public"]["Enums"]["industry"];
+          job_id: string;
+          job_status: Database["public"]["Enums"]["job_status"];
+          released: number;
+          shortlisted: number;
+          state: string;
+          title: string;
+        }[];
+      };
       has_applied: { Args: { p_job_id: string }; Returns: boolean };
       is_staff: { Args: Record<PropertyKey, never>; Returns: boolean };
       job_is_open: { Args: { p_job_id: string }; Returns: boolean };
+      my_employer_ids: { Args: Record<PropertyKey, never>; Returns: string[] };
     };
     Enums: {
       application_status:
@@ -251,6 +497,7 @@ export type Database = {
         | "Telecommunications";
       job_status: "draft" | "open" | "closed";
       pay_period: "hour" | "year";
+      search_request_status: "new" | "contacted" | "active" | "closed";
       user_role: "candidate" | "recruiter" | "admin" | "employer";
     };
     CompositeTypes: {
@@ -407,6 +654,7 @@ export const Constants = {
       ],
       job_status: ["draft", "open", "closed"],
       pay_period: ["hour", "year"],
+      search_request_status: ["new", "contacted", "active", "closed"],
       user_role: ["candidate", "recruiter", "admin", "employer"],
     },
   },

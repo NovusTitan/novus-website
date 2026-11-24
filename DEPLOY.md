@@ -89,3 +89,11 @@ The job board needs its tables in your **hosted** Supabase project. Until this i
 Supabase's built-in email only sends a few emails per hour, and it's meant for testing. Pick one:
 - **Recommended:** connect a real email service such as Resend (free tier) under **Authentication → Emails → SMTP Settings**.
 - **Stopgap:** turn off **Confirm email** under **Authentication → Sign In / Providers → Email**. People can then apply right after signing up, without confirming. The trade-off is that email addresses aren't verified.
+
+## 7. Employers update (run once, after section 6)
+1. In Supabase, open **SQL Editor** and click **New query**.
+2. Paste everything from `supabase/migrations/20261124000000_employers.sql` and click **Run**.
+
+This adds search requests, employer accounts, invite links and the shortlist. It doesn't change anything you already set up.
+
+**Rule for future database changes:** every file in `supabase/migrations/` runs once, in date order.

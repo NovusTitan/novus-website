@@ -12,6 +12,7 @@ import { createClient } from "@/lib/supabase/server";
 import { NoAccess } from "../../NoAccess";
 import { updateApplicationStatus } from "../actions";
 import { JobForm } from "../JobForm";
+import { ShortlistPanel } from "./ShortlistPanel";
 
 export const metadata: Metadata = { title: "Edit job · Recruiter dashboard", robots: { index: false } };
 
@@ -34,15 +35,19 @@ async function EditJob({ params, searchParams }: PageProps<"/admin/jobs/[id]">) 
   if (!/^[0-9a-f-]{36}$/i.test(id)) notFound();
 
   const supabase = await createClient();
-  const [{ data: job }, { data: internal }, { data: applicants }] = await Promise.all([
+  const [{ data: job }, { data: internal }, { data: applicants }, { data: employers }] = await Promise.all([
     supabase.from("jobs").select("*").eq("id", id).maybeSingle(),
-    supabase.from("job_internal").select("client_name, notes").eq("job_id", id).maybeSingle(),
+    supabase.from("job_internal").select("client_name, notes, employer_id, employers(name)").eq("job_id", id).maybeSingle(),
     supabase
       .from("applications")
-      .select("id, status, trade, note, resume_path, created_at, profiles(full_name, email, phone)")
+      .select(
+        "id, status, trade, note, resume_path, created_at, profiles(full_name, email, phone), shortlist(id, years_experience, summary, released_at)",
+      )
       .eq("job_id", id)
       .order("created_at", { ascending: false }),
+    supabase.from("employers").select("id, name").order("name"),
   ]);
+  const employerName = internal?.employers?.name ?? null;
   if (!job) notFound();
   const { created } = await searchParams;
 
@@ -69,6 +74,11 @@ async function EditJob({ params, searchParams }: PageProps<"/admin/jobs/[id]">) 
         <h2 id="applicants" className="text-2xl font-bold">
           Applicants ({applicants?.length ?? 0})
         </h2>
+        {!employerName && !!applicants?.length && (
+          <p className="mt-2 text-sm text-ink-soft">
+            To shortlist candidates for an employer, choose an employer account under &ldquo;Internal&rdquo; below.
+          </p>
+        )}
         {!applicants?.length ? (
           <p className="mt-4 rounded-lg bg-sand p-5 text-ink-soft">No applications yet.</p>
         ) : (
@@ -135,6 +145,14 @@ async function EditJob({ params, searchParams }: PageProps<"/admin/jobs/[id]">) 
                     </Button>
                   </form>
                 </div>
+                {employerName && (
+                  <ShortlistPanel
+                    key={`${a.shortlist?.id ?? "none"}-${a.shortlist?.released_at ?? ""}`}
+                    applicationId={a.id}
+                    employerName={employerName}
+                    entry={a.shortlist ?? null}
+                  />
+                )}
               </li>
             ))}
           </ul>
@@ -143,7 +161,10 @@ async function EditJob({ params, searchParams }: PageProps<"/admin/jobs/[id]">) 
 
       <section aria-labelledby="edit" className="mt-12 border-t border-chip pt-10">
         <h2 id="edit" className="mb-6 text-2xl font-bold">Edit job</h2>
-        <JobForm job={{ ...job, client_name: internal?.client_name ?? "", notes: internal?.notes ?? "" }} />
+        <JobForm
+          job={{ ...job, client_name: internal?.client_name ?? "", notes: internal?.notes ?? "", employer_id: internal?.employer_id ?? null }}
+          employers={employers ?? []}
+        />
       </section>
     </>
   );

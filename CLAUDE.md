@@ -200,6 +200,44 @@ The schema lives in `supabase/migrations/`. New changes go in new migration file
 
 ---
 
+## Employers (Phase 2/3)
+
+### The release rule (most important)
+Employers **never** get a candidate's name, email, phone or resume until a recruiter releases them (`shortlist.released_at`).
+- Employers have **no direct table access** to `applications`, `shortlist` or other people's `profiles`.
+- They read candidate data only through these `SECURITY DEFINER` functions:
+  - `employer_searches()`
+  - `employer_candidates(job_id)`: blanks out name, email, phone and resume until release
+  - `employer_resume_path(shortlist_id)`
+- Storage policy `resumes: employer reads released` checks the same thing again.
+- **Never** add a policy that gives employers direct reads on those tables, and never query candidate data for employer pages any other way.
+
+### Tables
+| Table | Holds | Access |
+|---|---|---|
+| `search_requests` | The "Open a search" form on `/employers` | Anyone can insert (status `new`). Staff read and update. |
+| `employers` | Client companies | Staff all. Members read their own company. |
+| `employer_members` | Which users belong to which employer | Staff all. Users read their own memberships. |
+| `employer_invites` | Invite links (token, email, 14-day expiry) | Staff only. Accepted via `accept_employer_invite(token)`, which requires the logged-in email to match and sets role `employer`. |
+| `job_internal.employer_id` | Links a job to an employer | Staff-only table, so the public can't see which client a job is for. |
+| `shortlist` | Applicants put forward to the employer: years, summary, `released_at` | Staff only. |
+
+### Pages
+- **`/employers`** (public): Novus Flex pricing and the request form. All pricing wording lives in `src/lib/flex.ts`.
+- **Staff:**
+  - `/admin/requests`
+  - `/admin/employers`, `/admin/employers/[id]` (users, invite links, linked jobs)
+  - The shortlist and release panel on `/admin/jobs/[id]`
+- **Employers:**
+  - `/employer/join?token=` to accept an invite
+  - `/employer` for their searches
+  - `/employer/searches/[jobId]` for candidates
+  - `/employer/resume/[id]` for resumes
+- **Invites:** staff copy the link and email it themselves. The site doesn't send invite emails, and no service-role key is needed.
+- **Billing:** activation fees and Flex payments are handled outside the site.
+
+---
+
 ## Tech
 - **Next.js 16** (App Router, TypeScript, `src/` dir).
   - Middleware is now `src/proxy.ts`.
